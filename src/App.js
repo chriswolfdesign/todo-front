@@ -41,6 +41,9 @@ class App extends React.Component {
         .post(this.url, data)
         .then(() => this.refreshData())
         .catch((err) => console.log(err));
+
+      // result the text box
+      e.target.value = "";
     }
   }
 
