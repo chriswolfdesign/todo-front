@@ -24,7 +24,7 @@ class App extends React.Component {
         }}
       >
         {this.state.data.map((todo) => {
-          return <TodoItem todo={todo} />;
+          return <TodoItem todo={todo} key={todo._id} />;
         })}
       </Box>
     );
