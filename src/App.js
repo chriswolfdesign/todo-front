@@ -1,12 +1,22 @@
 import React from "react";
 import { Box } from "@mui/material";
-import * as data from "./tmp-data.json";
 import TodoItem from "./components/TodoItem";
+import axios from "axios";
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = data;
+    this.state = {
+      data: [],
+    };
+  }
+
+  componentDidMount() {
+    const url = "http://127.0.0.1:3000/todos";
+    axios
+      .get(url)
+      .then((response) => this.setState({ data: response.data.todos }))
+      .catch((err) => console.log(err));
   }
 
   render() {
