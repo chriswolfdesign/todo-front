@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, TextField, Paper } from "@mui/material";
 import TodoItem from "./components/TodoItem";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ class App extends React.Component {
     this.refreshData = this.refreshData.bind(this);
     this.updateTodoItem = this.updateTodoItem.bind(this);
     this.deleteTodoItem = this.deleteTodoItem.bind(this);
+    this.keyPress = this.keyPress.bind(this);
     this.state = {
       data: [],
     };
@@ -27,6 +28,20 @@ class App extends React.Component {
       .delete(`${this.url}/${id}`)
       .then(() => this.refreshData())
       .catch((err) => console.log(err));
+  }
+
+  keyPress(e) {
+    if (e.keyCode === 13) {
+      const data = {
+        text: e.target.value,
+        completed: false,
+      };
+
+      axios
+        .post(this.url, data)
+        .then(() => this.refreshData())
+        .catch((err) => console.log(err));
+    }
   }
 
   refreshData() {
@@ -64,6 +79,24 @@ class App extends React.Component {
             />
           );
         })}
+        <Paper
+          sx={{
+            marginTop: 3,
+            paddyingY: 1,
+            paddingLeft: 1,
+          }}
+        >
+          <TextField
+            sx={{
+              paddingY: 1,
+              paddingX: 1,
+              width: "98%",
+            }}
+            size="small"
+            label="New todo"
+            onKeyDown={this.keyPress}
+          />
+        </Paper>
       </Box>
     );
   }
