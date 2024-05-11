@@ -42,7 +42,7 @@ class App extends React.Component {
         .then(() => this.refreshData())
         .catch((err) => console.log(err));
 
-      // result the text box
+      // reset the text box
       e.target.value = "";
     }
   }
