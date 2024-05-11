@@ -6,17 +6,30 @@ import axios from "axios";
 class App extends React.Component {
   constructor() {
     super();
+    this.url = "http://127.0.0.1:3000/todos";
+    this.refreshData = this.refreshData.bind(this);
+    this.updateTodoItem = this.updateTodoItem.bind(this);
     this.state = {
       data: [],
     };
   }
 
-  componentDidMount() {
-    const url = "http://127.0.0.1:3000/todos";
+  updateTodoItem(id, data) {
     axios
-      .get(url)
+      .put(`${this.url}/${id}`, data)
+      .then(() => this.refreshData())
+      .catch((err) => console.log(err));
+  }
+
+  refreshData() {
+    axios
+      .get(this.url)
       .then((response) => this.setState({ data: response.data.todos }))
       .catch((err) => console.log(err));
+  }
+
+  componentDidMount() {
+    this.refreshData();
   }
 
   render() {
@@ -34,7 +47,13 @@ class App extends React.Component {
         }}
       >
         {this.state.data.map((todo) => {
-          return <TodoItem todo={todo} key={todo._id} />;
+          return (
+            <TodoItem
+              todo={todo}
+              key={todo._id}
+              updateTodoItem={this.updateTodoItem}
+            />
+          );
         })}
       </Box>
     );
