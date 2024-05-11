@@ -1,4 +1,4 @@
-import { Grid, Button, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function TodoItem(props) {
