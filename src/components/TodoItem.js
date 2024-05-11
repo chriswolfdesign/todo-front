@@ -8,6 +8,9 @@ function TodoItem(props) {
 
   function toggleTodoCompletion() {
     console.log("Toggling todo item:", props.todo._id);
+    props.updateTodoItem(props.todo._id, {
+      completed: !props.todo.completed,
+    });
   }
 
   return (
