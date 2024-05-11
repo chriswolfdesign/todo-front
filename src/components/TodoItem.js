@@ -1,4 +1,5 @@
-import { Paper, Typography } from "@mui/material";
+import { Grid, Button, Paper, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function TodoItem(props) {
   const strikeThroughStyle = {
@@ -7,10 +8,13 @@ function TodoItem(props) {
   };
 
   function toggleTodoCompletion() {
-    console.log("Toggling todo item:", props.todo._id);
     props.updateTodoItem(props.todo._id, {
       completed: !props.todo.completed,
     });
+  }
+
+  function deleteTodo() {
+    props.deleteTodoItem(props.todo._id);
   }
 
   return (
@@ -23,9 +27,15 @@ function TodoItem(props) {
       elevation={5}
       onClick={toggleTodoCompletion}
     >
-      <Typography sx={props.todo.completed ? strikeThroughStyle : {}}>
-        {props.todo.text}
-      </Typography>
+      <Grid container>
+        <DeleteIcon
+          sx={{ color: "red", marginRight: 2 }}
+          onClick={deleteTodo}
+        />
+        <Typography sx={props.todo.completed ? strikeThroughStyle : {}}>
+          {props.todo.text}
+        </Typography>
+      </Grid>
     </Paper>
   );
 }

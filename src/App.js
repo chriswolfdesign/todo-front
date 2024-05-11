@@ -9,6 +9,7 @@ class App extends React.Component {
     this.url = "http://127.0.0.1:3000/todos";
     this.refreshData = this.refreshData.bind(this);
     this.updateTodoItem = this.updateTodoItem.bind(this);
+    this.deleteTodoItem = this.deleteTodoItem.bind(this);
     this.state = {
       data: [],
     };
@@ -17,6 +18,13 @@ class App extends React.Component {
   updateTodoItem(id, data) {
     axios
       .put(`${this.url}/${id}`, data)
+      .then(() => this.refreshData())
+      .catch((err) => console.log(err));
+  }
+
+  deleteTodoItem(id) {
+    axios
+      .delete(`${this.url}/${id}`)
       .then(() => this.refreshData())
       .catch((err) => console.log(err));
   }
@@ -52,6 +60,7 @@ class App extends React.Component {
               todo={todo}
               key={todo._id}
               updateTodoItem={this.updateTodoItem}
+              deleteTodoItem={this.deleteTodoItem}
             />
           );
         })}
