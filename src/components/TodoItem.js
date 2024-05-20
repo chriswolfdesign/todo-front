@@ -1,8 +1,9 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Checkbox, Grid, Paper, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function TodoItem(props) {
   const strikeThroughStyle = {
+    marginTop: 1,
     textDecoration: "line-through",
     color: "lightgray",
   };
@@ -25,14 +26,19 @@ function TodoItem(props) {
         paddingLeft: 1,
       }}
       elevation={5}
-      onClick={toggleTodoCompletion}
     >
       <Grid container>
         <DeleteIcon
-          sx={{ color: "red", marginRight: 2 }}
+          sx={{ cursor: "pointer", color: "red", marginTop: 1 }}
           onClick={deleteTodo}
         />
-        <Typography sx={props.todo.completed ? strikeThroughStyle : {}}>
+        <Checkbox
+          checked={props.todo.completed}
+          onClick={toggleTodoCompletion}
+        />
+        <Typography
+          sx={props.todo.completed ? strikeThroughStyle : { marginTop: 1 }}
+        >
           {props.todo.text}
         </Typography>
       </Grid>
