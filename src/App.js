@@ -1,19 +1,34 @@
 import React from "react";
-import {Box, Paper, TextField} from "@mui/material";
+import {Box, Paper, TextField, Typography} from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import TodoItem from "./components/TodoItem";
 import axios from "axios";
 
 class App extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
         this.url = "http://127.0.0.1:3000/todos";
         this.refreshData = this.refreshData.bind(this);
         this.updateTodoItem = this.updateTodoItem.bind(this);
         this.deleteTodoItem = this.deleteTodoItem.bind(this);
         this.keyPress = this.keyPress.bind(this);
+        this.calculateCompletionPercentage = this.calculateCompletionPercentage.bind(this);
+
         this.state = {
             data: [],
         };
+    }
+
+    calculateCompletionPercentage() {
+        if (this.state.data.length === 0) {
+            return 0;
+        }
+
+        let numTodos = this.state.data.length;
+        let completedTodos = this.state.data.filter(todo => todo.completed).length;
+
+        return Math.floor((completedTodos / numTodos) * 100);
     }
 
     updateTodoItem(id, data) {
@@ -72,6 +87,15 @@ class App extends React.Component {
                     backgroundColor: "white",
                 }}
             >
+                <Box sx={{ display: "flex", alignItems: "center"}}>
+                    <Box sx={{ width: "100%", mr: 1}}>
+                        <LinearProgress variant="determinate" value={this.calculateCompletionPercentage()} />
+                    </Box>
+                    <Box xs={{ minWidth: 25}}>
+                        <Typography variant="body2">{this.calculateCompletionPercentage()}%</Typography>
+                    </Box>
+                </Box>
+
                 {this.state.data.map((todo) => {
                     return (
                         <TodoItem
@@ -85,7 +109,7 @@ class App extends React.Component {
                 <Paper
                     sx={{
                         marginTop: 3,
-                        paddyingY: 1,
+                        paddingY: 1,
                         paddingLeft: 1,
                     }}
                 >
