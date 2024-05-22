@@ -8,7 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.url = "http://127.0.0.1:3000/todos";
+        this.url = process.env.SERVER_URL || "http://127.0.0.1:8080/todos";
         this.refreshData = this.refreshData.bind(this);
         this.updateTodoItem = this.updateTodoItem.bind(this);
         this.deleteTodoItem = this.deleteTodoItem.bind(this);
